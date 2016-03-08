@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>jQuery UI Sortable - Handle empty lists</title>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
+<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+<script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+<link rel="stylesheet" href="/resources/demos/style.css" />
+<style>
+#availablemaps, #maplist { list-style-type: none; margin: 0; padding: 0; float: left; margin-right: 10px; background: #eee; padding: 5px; width: 143px;}
+#availablemaps li, #maplist li { margin: 5px; padding: 5px; font-size: 1.2em; width: 120px; }
+</style>
+<script>
+	$(function()
+	{
+		$("#availablemaps").sortable(
+		{
+			connectWith: "ul",
+		});
+		$("#maplist").sortable(
+		{
+			connectWith: "ul",
+			receive: function(event, ui)
+			{
+				$('#ajax_maplist_status').hide().load('!m_add?n='+ui.item.html()).fadeIn("slow")
+			},
+			remove: function(event, ui)
+			{
+				$('#ajax_maplist_status').hide().load('!m_remove?n='+ui.item.html()).fadeIn("slow")
+			},
+		});
+		$("#availablemaps, #maplist").disableSelection();
+	});
+</script>
+</head>
+<body>
+<ul id="availablemaps" class="droptrue">
+<li class="ui-state-default">bandar desert</li>
+<li class="ui-state-default">firestorm</li>
+<li class="ui-state-default">operation metro</li>
+</ul>
+<ul id="maplist" class="droptrue">
+</ul>
+<br style="clear: both;" />
+<div id="ajax_maplist_status">Loading Playerlist...</div>
+</body>
+</html>
